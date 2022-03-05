@@ -1,0 +1,17 @@
+.enter {
+  @apply opacity-0 -translate-y-full;
+}
+
+.enter-active {
+  @apply opacity-100 translate-y-0;
+  transition: opacity 300ms ease-in, transform 300ms ease-in;
+}
+
+.exit {
+  @apply opacity-100 translate-y-0;
+}
+
+.exit-active {
+  @apply opacity-0 -translate-y-full;
+  transition: opacity 300ms ease-in, transform 300ms ease-in;
+}

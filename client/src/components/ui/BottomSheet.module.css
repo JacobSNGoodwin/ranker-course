@@ -1,0 +1,17 @@
+.enter {
+  top: 100%;
+}
+
+.enter-active {
+  @apply top-16;
+  transition: top 300ms ease-in-out;
+}
+
+.exit {
+  @apply top-16;
+}
+
+.exit-active {
+  top: 100%;
+  transition: top 300ms ease-in-out;
+}
