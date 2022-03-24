@@ -1,6 +1,6 @@
 ## Ranker Course
 
-This repo holds the project code for my [Ranker Youtube tutorial]() on building a real-time, websocket-based (add another hyphenated-term as you please) ranked-choice voting app! 
+This repo holds the project code for my [Ranker Youtube tutorial](https://youtube.com/playlist?list=PLnrGn4P6C4P5J2rSSyiAyxZegws4SS8ey) on building a real-time, websocket-based (add another hyphenated-term as you please) ranked-choice voting app! 
 
 I hope it helps you and your friends to choose a movie to see, a vacation destination, or to find a place to eat without wasting so much time deliberating that your enthusiasm for going out utterly vanishes!
 
