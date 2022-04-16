@@ -4,7 +4,7 @@ This repo holds the project code for my [Ranker Youtube tutorial](https://youtub
 
 I hope it helps you and your friends to choose a movie to see, a vacation destination, or to find a place to eat without wasting so much time deliberating that your enthusiasm for going out utterly vanishes!
 
-Check out the [./tutorials/01-application-overview.md] to determine if you're interested!
+Check out the [Application Overview](./tutorials/01-application-overview.md) to determine if you're interested!
 
 ## Getting Started
 
