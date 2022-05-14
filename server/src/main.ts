@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { SocketIOAdapter } from './socket-io-adapter';
 
 async function bootstrap() {
   const logger = new Logger('Main (main.ts)');
@@ -17,6 +18,7 @@ async function bootstrap() {
       new RegExp(`/^http:\/\/192\.168\.1\.([1-9]|[1-9]\d):${clientPort}$/`),
     ],
   });
+  app.useWebSocketAdapter(new SocketIOAdapter(app, configService));
 
   await app.listen(port);
 
