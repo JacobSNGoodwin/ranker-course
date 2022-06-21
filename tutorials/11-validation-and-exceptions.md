@@ -190,10 +190,10 @@ We'll now catch some particular exceptions, and then default for all other types
 // ... imports
     if (exception instanceof BadRequestException) {
       const exceptionData = exception.getResponse();
+      const exceptionMessage =
+        exceptionData['message'] ?? exceptionData ?? exception.name;
 
-      const wsException = new WsBadRequestException(
-        exceptionData['message'] ?? 'Bad Request',
-      );
+      const wsException = new WsBadRequestException(exceptionMessage);
       socket.emit('exception', wsException.getError());
       return;
     }
@@ -204,7 +204,7 @@ We'll now catch some particular exceptions, and then default for all other types
 
 For now, and we may or may not update this later, I really just want to convert a `BadRequestException`, which is a subclass of `HttpException` into a `WsBadRequestException`. Remember earlier in this tutorial how we added a validation pipe? Well, this pipe only throws `BadRequest` Http exceptions. In subsequent tutorials, we'll actually use a similar class to validate an incoming socket event payload, and we want a way to convert the error into a websocket exception message.
 
-The way I'm extracting the response, and then the message field is just something you'll need to play around with. But getting the `message` field should be valid in most cases. If it's null or undefined though, we'll just send a `Bad Request` message.
+The way I'm extracting the response, and then the message field is just something you'll need to play around with. But getting the `message` field should be valid in most cases. If it's null or undefined though, we'll just send a `BadRequest`, which should be the `exception.name`.
 
 Also note that we emit the `exception` type message ourselves via a socket client. We cannot just rethrow and exception, because we're already in the exception handling zone of Nest, and there's not other code to handle errors after this. 
 
