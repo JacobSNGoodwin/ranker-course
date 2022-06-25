@@ -36,7 +36,7 @@ export class PollsGateway
     this.logger.log(`Websocket Gateway initialized.`);
   }
 
-  handleConnection(client: SocketWithAuth) {
+  async handleConnection(client: SocketWithAuth) {
     const sockets = this.io.sockets;
 
     this.logger.debug(
@@ -46,20 +46,50 @@ export class PollsGateway
     this.logger.log(`WS Client with id: ${client.id} connected!`);
     this.logger.debug(`Number of connected sockets: ${sockets.size}`);
 
-    this.io.emit('hello', `from ${client.id}`);
-  }
+    const roomName = client.pollID;
+    await client.join(roomName);
 
-  handleDisconnect(client: SocketWithAuth) {
-    const sockets = this.io.sockets;
+    const connectedClients = this.io.adapter.rooms?.get(roomName)?.size ?? 0;
 
     this.logger.debug(
-      `Socket connected with userID: ${client.userID}, pollID: ${client.pollID}, and name: "${client.name}"`,
+      `userID: ${client.userID} joined room with name: ${roomName}`,
     );
+    this.logger.debug(
+      `Total clients connected to room '${roomName}': ${connectedClients}`,
+    );
+
+    const updatedPoll = await this.pollsService.addParticipant({
+      pollID: client.pollID,
+      userID: client.userID,
+      name: client.name,
+    });
+
+    this.io.to(roomName).emit('poll_updated', updatedPoll);
+  }
+
+  async handleDisconnect(client: SocketWithAuth) {
+    const sockets = this.io.sockets;
+
+    const { pollID, userID } = client;
+    const updatedPoll = await this.pollsService.removeParticipant(
+      pollID,
+      userID,
+    );
+
+    const roomName = client.pollID;
+    const clientCount = this.io.adapter.rooms?.get(roomName)?.size ?? 0;
 
     this.logger.log(`Disconnected socket id: ${client.id}`);
     this.logger.debug(`Number of connected sockets: ${sockets.size}`);
+    this.logger.debug(
+      `Total clients connected to room '${roomName}': ${clientCount}`,
+    );
 
-    // TODO - remove client from poll and send `participants_updated` event to remaining clients
+    // updatedPoll could be undefined if the the poll already started
+    // in this case, the socket is disconnect, but no the poll state
+    if (updatedPoll) {
+      this.io.to(pollID).emit('poll_updated', updatedPoll);
+    }
   }
 
   @SubscribeMessage('test')

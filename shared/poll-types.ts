@@ -11,5 +11,5 @@ export interface Poll {
   // nominations: Nominations;
   // rankings: Rankings;
   // results: Results;
-  // hasStarted: boolean;
+  hasStarted: boolean;
 }
