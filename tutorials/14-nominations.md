@@ -1,4 +1,4 @@
-# 13 - Adding and Removing Nominations Via Socket Events
+# 14 - Adding and Removing Nominations Via Socket Events
 
 Last time we created an authorized socket.io event and handler to remove a participant from the poll. 
 
