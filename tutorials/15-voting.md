@@ -27,9 +27,9 @@ export type Nominations = {
   [nominationID: NominationID]: Nomination;
 }
 
-export interface Rankings {
+export type Rankings = {
   [userID: string]: NominationID[];
-}
+};
 
 export type Poll = {
   id: string;
