@@ -22,4 +22,4 @@ type TokenPayload = {
 };
 
 export const getTokenPayload = (accessToken: string): TokenPayload =>
-  JSON.parse(atob(accessToken.split('.')[1]));
+  JSON.parse(window.atob(accessToken.split('.')[1]));
